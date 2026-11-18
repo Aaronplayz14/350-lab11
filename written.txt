@@ -1,2 +1,11 @@
 2a.
+The batched version averaged roughly 21.7 FPS during its last five reported EMA readings on this Mac using a Debug build, SFML 3.1.0, and 10,000 particles, while the supplied unbatched version averaged roughly 11.9 FPS.
+Because batching renders the sprites collectively rather than generating a separate draw call for each sprite, it was approximately 1.8 times faster in these runs.
+The final five unbatched values ranged from roughly 10.4 to 14.2 FPS, thus the comparison is approximate and depends on the system and background activities.
+
+
 2b.
+Enable GL_DEPTH_TEST and clean the depth buffer every frame so that the rasterization pipeline retains the closest opaque sprite at each pixel without requiring manual sorting. 
+Give each sprite a depth value and pass it to the vertex shader, using it for gl_Position.z while keeping gl_Position.w equal to 1.
+Translucent sprites still require proper ordering and blending, usually with depth writes turned off before rendering.
+
